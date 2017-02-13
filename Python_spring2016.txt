@@ -1,0 +1,32 @@
+1. Python motivation and reading this article before starting the teaching --> 
+   
+   http://cacm.acm.org/blogs/blog-cacm/176450-python-is-now-the-most-popular-introductory-teaching-language-at-top-us-universities/fulltext
+
+With most of the top-ranked universities switching their introductory teaching language medium to Python.
+
+2. http://www.pythontutor.com/
+
+Languages chosen by top-level universities could indicate broader trends in computer science education, since these are often the 
+trendsetters for the rest of the educational community. 
+
+3. Python course exercise links --> http://learnpythonthehardway.org/book/ex2.html
+
+4. Web scraping in Python: Collecting data off of websites using Python
+
+5. Using Python with Arduino lessons: Processing real-time sensor data --> http://www.toptechboy.com/using-python-with-arduino-lessons/
+
+6. Hashable (in Python) --> Can be converted to numbers.
+
+7. SOURCE: GAPMINDER DATA (http://www.gapminder.org/)
+   CDIAC CO2 emissions (tonnes per person) --> http://www.gapminder.org/data/ --> Page 4
+   Google spreadsheet data --> https://docs.google.com/spreadsheets/d/1RjqGm7RG82GGVf7E4RXPPwFF7O1So6T0SFx2fVfcUJA/pub?gid=0
+   Visualisation for the above online wrt income per person --> http://www.gapminder.org/world/#$majorMode=chart$is;shi=t;ly=2003;lb=f;il=t;fs=11;al=30;stl=t;st=t;nsl=t;se=t$wst;tts=C$ts;sp=5.59290322580644;ti=2010$zpv;v=0$inc_x;mmid=XCOORDS;iid=phAwcNAVuyj1jiMAkmq1iMg;by=ind$inc_y;mmid=YCOORDS;iid=phAwcNAVuyj1gkNuUEXOGag;by=ind$inc_s;uniValue=8.21;iid=phAwcNAVuyj0XOoBL_n5tAQ;by=ind$inc_c;uniValue=255;gid=CATID0;by=grp$map_x;scale=log;dataMin=194;dataMax=96846$map_y;scale=lin;dataMin=0;dataMax=252$map_s;sma=50;smi=2$cd;bd=0$inds=
+ 
+8. Data.gov: http://catalog.data.gov/dataset   
+9. Quantitative workshop: http://dustin21.github.io/AQM/AQM.html
+10.Sparkfun streams: https://data.sparkfun.com/streams/
+11.SOURCE: GAPMINDER DATA 
+   GDP per capita World bank: https://docs.google.com/spreadsheets/d/1TuLhfdvskeJYaQziz7M0W6vMfh4zyGFQZoeoBrAotyA/pub?gid=0#
+   
+12. Web Scraping: http://www.ilab.rutgers.edu/~vverna/scrape-the-web-using-css-selectors-in-python.html
+   

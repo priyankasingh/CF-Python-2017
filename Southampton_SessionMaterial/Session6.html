@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+</head>
+<body>
+<h2 id="flask-and-get-post-requests">Flask and GET/ POST requests</h2>
+<p>By now, since we have an intermediate knowledge of the <code>Python</code> programming language. We’ll be using <code>Flask</code>, a Python web application framework, to create a simple web application from scratch, with <code>MySQL</code> as a back end.</p>
+<h4 id="introduction">Introduction</h4>
+<p>The de facto framework that usually comes to our mind is the <code>Django</code> framework when we think about Python. But from a beginner’s perspective, Flask is easier to start with, as compared to Django.</p>
+<p>Flask is a framework for building lightweight web applications. In order to get up and running, we will follow the instructions as mentioned below:</p>
+<p>Setting up Flask is pretty simple and quick. With <code>pip</code> package manager, all we need to do is:</p>
+<p><code>pip</code> can be installed with below command:</p>
+<pre class="sourceCode python"><code class="sourceCode python">easy_install pip</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">pip install flask</code></pre>
+<p>Now, let’s create a baseline Flask application called <code>hello.py</code> as below by importing the <code>flask</code> module and create an app using Flask:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> flask <span class="ch">import</span> Flask
+app=Flask(<span class="st">&quot;HelloApp&quot;</span>)</code></pre>
+<p>Now define the basic route <code>/</code> and its corresponding request handler:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ot">@app.route</span>(<span class="st">&quot;/&quot;</span>)
+<span class="kw">def</span> hello():
+    <span class="kw">return</span> <span class="st">&quot;Hello World!&quot;</span></code></pre>
+<p>Next, check if the executed file is the main program and run the app:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">if</span> <span class="ot">__name__</span> == <span class="st">&quot;__main__&quot;</span>:
+    app.run() </code></pre>
+<p>Save the changes and execute <code>hello.py</code>:</p>
+<pre class="sourceCode python"><code class="sourceCode python">python hello.py</code></pre>
+<p>Point your browser to <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a> and you should see the welcome message.</p>
+<h4 id="flask-routes-and-decorators">Flask routes and decorators</h4>
+<p>You may be wondering what <code>@?app.route?stands</code> for and why we are using it. This is what is known as a <strong>d?ecorator</strong>.?</p>
+<p>The concept of decorators exists in most programming languages; their purpose is to inject or modify code in functions.</p>
+<p>In simpler terms, imagine you would like to do something at the entry and/ or exit points of a function. This is what is happening here ? <code>@app.route</code>, ?which is part of Flask, is doing some things internally for us so that we can accept a request coming from the user’s browser into the Python.</p>
+<p>A <em>decorator</em> always starts with the <strong>@</strong> sign and goes on the line right before a function is defined.</p>
+<h3 id="flask-taking-parameters-from-the-url">Flask: Taking parameters from the URL</h3>
+<p>Let’s look at the code below:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> flask <span class="ch">import</span> Flask
+
+app=Flask(<span class="st">&quot;My App&quot;</span>)
+
+<span class="ot">@app.route</span>(<span class="st">&quot;/&quot;</span>)
+<span class="kw">def</span> hello():
+      <span class="kw">return</span> <span class="st">&quot;Hello World!&quot;</span>
+      
+<span class="ot">@app.route</span>(<span class="st">&quot;/&lt;name&gt;&quot;</span>)
+<span class="kw">def</span> hello_someone(name):
+      <span class="kw">return</span> <span class="st">&quot;Hello </span><span class="ot">{0}</span><span class="st">!&quot;</span>.<span class="dt">format</span>(name.title())
+      
+app.run()</code></pre>
+<p>The <strong><name></strong> is a URL matcher - It will match <strong>/</strong> followed by any word, for example /andreas, /rachel etc. Flask will make this value available as a parameter to <strong>hello_someone</strong>. We then use the <strong>name</strong> variable to say hello to a particular user.</p>
+<p>We will edit the previous file and add the function <strong>hello_someone</strong>. And then check if that works by visiting URL <a href="http://127.0.0.1:5000/andreas">http://127.0.0.1:5000/andreas</a> or your name if you prefer.</p>
+<h5 id="challenge-1">Challenge 1</h5>
+<p>Try and make the above program so that visiting <strong>localhost:5000/bye/andreas</strong> returns <code>Goodbye Andreas</code> or <code>Goodbye</code> for any other name given.</p>
+<h3 id="serving-html-using-flask">Serving HTML using Flask</h3>
+<p>Flask lets us serve our HTML - This is possible using the <strong>render_template</strong> function. All we have to do is provide the name of the template and the variables we want to pass to the template engine as keyword arguments.</p>
+<p>Below is an example of how to render a template:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> flask <span class="ch">import</span> Flask
+<span class="ch">from</span> flask <span class="ch">import</span> render_template
+
+app=Flask(<span class="st">&quot;HelloApp&quot;</span>)
+
+<span class="ot">@app.route</span>(<span class="st">&quot;/&quot;</span>)
+<span class="kw">def</span> hello():
+      <span class="kw">return</span> render_template(<span class="st">&quot;hello.html&quot;</span>)
+      
+<span class="ot">@app.route</span>(<span class="st">&quot;/&lt;name&gt;&quot;</span>)
+<span class="kw">def</span> hello_someone(name):
+      <span class="kw">return</span> render_template(<span class="st">&quot;hello.html&quot;</span>, name=name.title())
+      
+app.run()      </code></pre>
+<p><strong>Note: Flask will look for templates in the templates folder.</strong> Flask uses another library called <a href="http://jinja.pocoo.org/docs/dev/">Jinja2</a>, which is a templating language for Python. It’s extremely powerful. Here’s what an example <strong>html file hello.html</strong> would look like, inside a templates folder, that uses Jinja2:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>!doctype html&gt;
+<span class="kw">&lt;title&gt;</span>Hello from Flask<span class="kw">&lt;/title&gt;</span>
+{% if name %}
+    <span class="kw">&lt;h1&gt;</span>Hello {{ name }}! <span class="kw">&lt;/h1&gt;</span>
+{% else %}
+    <span class="kw">&lt;h1&gt;</span>Hello World! <span class="kw">&lt;/h1&gt;</span>
+{% endif %}</code></pre>
+<h5 id="challenge-2">Challenge 2</h5>
+<p>Extend the above code so that you can say goodbye to someone if you visit <strong>localhost:5000/goodbye/<username></strong>.</p>
+<p>Also, try to add some more parameters to the URL and pass those onto your <code>hello.html</code> template. May be something like “Hello <username>! Have a nice day!” and “Hello <username>! Have a good night!” corresponding to localhost URLs.</p>
+<h3 id="files">Files</h3>
+<p>So far, we’ve seen how to send out some basic text with a simple Flask application, and the languages that are used to build the web: HTML, CSS and Javascript (as a part of previous CodeFirst course). Showing and serving text is not enough when we want to serve some actual files.</p>
+<p>Flask has the facility to <strong>create a folder</strong> in the same directory as <code>hello.py</code> with the special name of <code>static</code>. Any file you put in that folder will be served by Flask automatically.</p>
+<p>Directory can be created using <code>mkdir static</code> command. You can save an image file in this static folder, and we’d normally access our application by visiting the URL <a href="http://127.0.0.1:5000">http://127.0.0.1:5000</a>, then we can view that file by going to <a href="http://127.0.0.1:5000/static/&lt;image&gt;">http://127.0.0.1:5000/static/<image></a>.</p>
+<p>The <code>static</code> folder is a great place to put CSS stylesheets, Javascript script files, and images. Those files don’t usually change much when a website is running, hence the folder name. A common practice is that web developers will organise these files in sub-directories called, for instance, <code>css</code>, <code>js</code>, and <code>ing</code> respectively.</p>
+<h3 id="html-templates">HTML Templates</h3>
+<p>The <em>content</em> of our application is put in <strong>THE HTML</strong> file. Flask makes use of HTML templating that allows it to put dynamic application data (like a list of email addresses that changes over time) into HTML easily, so that any web browser can view it easily, and it looks good as well.</p>
+<p>Flask uses another special directory to store templates, called <code>templates</code>. Let’s go ahead and create it, like we did for <code>static</code> using <code>mkdir templates</code>.</p>
+<p>In this directory, we <strong>create a file</strong> called <code>index.html</code> and put some HTML:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+  <span class="kw">&lt;head&gt;</span>
+    <span class="kw">&lt;title&gt;</span>{{ author }}&#39;s first Python Web App<span class="kw">&lt;/title&gt;</span>
+  <span class="kw">&lt;/head&gt;</span>
+
+  <span class="kw">&lt;body&gt;</span>
+    <span class="kw">&lt;h2&gt;</span>Hello {{ name }}!<span class="kw">&lt;/h2&gt;</span>
+  <span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<p>The above one is a simple HTML page, but it includes 2 simple bits of Flask’s templating language. When Flask shows this template in our browser, it will replace <code>{{author}} and {{name}}</code> with what we assign those 2 variables in our application. If author was assigned to be <strong>Jack</strong>, then the title of the page will be <strong>Jack’s first Python Web App</strong>.</p>
+<p>A template separates what the content of the page should be, from the actual data that will be used as that content which makes things easier if we have to write a lot of dynamic web pages. They can do more than just display variables. Let’s now modify the web app based on the above template now:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> flask <span class="ch">import</span> Flask, render_template
+app = Flask(<span class="ot">__name__</span>)
+
+<span class="ot">@app.route</span>(<span class="st">&#39;/&#39;</span>)
+<span class="kw">def</span> hello_world():
+      author = <span class="st">&quot;Devasena&quot;</span>
+      name = <span class="st">&quot;Robot&quot;</span>
+      <span class="kw">return</span> render_template(<span class="st">&#39;index.html&#39;</span>, author=author, name=name)
+
+<span class="kw">if</span> <span class="ot">__name__</span> == <span class="st">&quot;__main__&quot;</span>:
+     app.run()</code></pre>
+<p>From the above script, instead of returning some text, we returned the result of calling <code>render_template</code>. First, we give it the file name of the template we wish to process. Then, we pass in the variable names that the template should know about (<code>author</code> and <code>name</code>) and what their values should be (..coincidentally, <code>author</code> and <code>name</code>). This function loads up the template, do the processing with the values entered, and return the full HTML text.</p>
+<p>You can now run and view your app.</p>
+<h3 id="creating-a-home-page">Creating a home page</h3>
+<p>When the application runs for the first time, we should show a home page with the introduction and main content. Let’s make our home page a bit more prettier. Let’s put some fancy fonts, large bold types, huge banner images and nice round corners and things. We need some more interesting html and some of CSS to get it look more pretty.</p>
+<p>Let’s prepare a self-contained template that we can use for our home page. You can download it from <a href="index.html">here</a> and save it in your <strong>templates</strong> folder.</p>
+<p>We can now modify our Flask app or use the same script to serve above created template.</p>
+<h3 id="get-post-requests">GET &amp; POST requests</h3>
+<p>In the world of HTTP, there are a number of types of requests; we will be concentrating on two of them:</p>
+<ul>
+<li><strong>GET</strong> - When you want to retrieve data</li>
+<li><strong>POST</strong> - When you want to send data</li>
+</ul>
+<p>Everything we have been doing so far has been using a <strong>GET request</strong> - let’s see how we can use a simple <strong>POST request</strong>. Let’s add a form to <a href="index.html"><strong>index.html</strong></a>:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;contact-form&quot;</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;h1&gt;</span>Get In Touch!<span class="kw">&lt;/h1&gt;</span>
+      <span class="kw">&lt;form</span><span class="ot"> method=</span><span class="st">&quot;post&quot;</span><span class="ot"> action=</span><span class="st">&quot;/signup&quot;</span><span class="kw">&gt;</span>
+              <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;name&quot;</span><span class="kw">&gt;</span>Name: <span class="kw">&lt;/label&gt;</span>
+               <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> id=</span><span class="st">&quot;name&quot;</span><span class="ot"> name=</span><span class="st">&quot;name&quot;</span><span class="ot"> value=</span><span class="st">&quot;&quot;</span><span class="ot"> placeholder=</span><span class="st">&quot;Devasena Inupakutika&quot;</span><span class="ot"> required=</span><span class="st">&quot;required&quot;</span><span class="ot"> autofocus=</span><span class="st">&quot;autofocus&quot;</span><span class="kw">/&gt;</span>
+               <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;email&quot;</span><span class="kw">&gt;</span>Email Address:<span class="kw">&lt;/label&gt;</span>
+               <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;email&quot;</span><span class="ot"> id=</span><span class="st">&quot;email&quot;</span><span class="ot"> name=</span><span class="st">&quot;email&quot;</span><span class="ot"> value=</span><span class="st">&quot;&quot;</span><span class="ot"> placeholder=</span><span class="st">&quot;devasena.prasad@gmail.com&quot;</span><span class="ot"> required=</span><span class="st">&quot;required&quot;</span> <span class="kw">/&gt;</span>
+               <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;Submit&quot;</span><span class="ot"> id=</span><span class="st">&quot;submit-button&quot;</span> <span class="kw">/&gt;</span>
+       <span class="kw">&lt;/form&gt;</span>
+<span class="kw">&lt;/div&gt;</span></code></pre>
+<p>Pay attention to the <strong>form</strong> element which has an action equal to <strong>/signup</strong> - that’s the URL which the form will be submitted to, relevant to the absolute URL you are at (in this case <strong>localhost:5000</strong>)- so we need to create an entry in our <strong>hello.py</strong> file:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ot">@app.route</span>(<span class="st">&quot;/signup&quot;</span>, methods=[<span class="st">&#39;POST&#39;</span>])
+<span class="kw">def</span> sign_up():
+      form_data=request.form
+      <span class="dt">print</span>(form_data[<span class="st">&#39;name&#39;</span>])
+      <span class="dt">print</span>(form_data[<span class="st">&#39;email&#39;</span>])
+      <span class="kw">return</span> <span class="st">&quot;All OK!&quot;</span></code></pre>
+<p>There is one thing that we need to do! You might have noticed that we are now accessing a variable called <strong>request</strong>; where did this come from? This is actually part of Flask and we need to import it - so at the very top of our <code>hello.py</code> file, let’s insert:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> flask <span class="ch">import</span> request</code></pre>
+<p>Now if you navigate to <a href="localhost:5000/hello/&lt;username&gt;">localhost:5000/hello/<username></a>.</p>
+<h3 id="flask-project-directory-structure">Flask Project Directory Structure</h3>
+<p>Below is the recommended structure for any Flask project/ application:</p>
+<pre class="sourceCode python"><code class="sourceCode python">
+/your_app
+       hello.py
+       /static
+              /js
+                    hello.js
+             /css
+                    hello.css
+            /images
+                   hello.jpg
+       /templates
+            hello.html</code></pre>
+<p>Whatever is stored in <code>templates</code> can be automatically detected when using <code>render_template</code> function, so there isn’t anything else we need to do. In order to reference our CSS, Javascript and images from within our HTML, then we need to do something like below:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="er">&lt;</span>!doctype html&gt;
+<span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> type=</span><span class="st">&quot;text/css&quot;</span><span class="ot"> href=</span><span class="st">&quot;{{ url_for(&#39;static&#39;, filename=&#39;css/hello.css&#39;) }}&quot;</span><span class="kw">&gt;</span>
+<span class="kw">&lt;title&gt;</span>Hello from Flask<span class="kw">&lt;/title&gt;</span>
+{% if name %}
+    <span class="kw">&lt;h1&gt;</span>Hello {{ name }}! <span class="kw">&lt;/h1&gt;</span>
+{% else %}
+    <span class="kw">&lt;h1&gt;</span>Hello World! <span class="kw">&lt;/h1&gt;</span>
+{% endif %}</code></pre>
+<h3 id="head-to-mandrills-website-and-create-an-account-we-will-be-using-mandrill-to-programmatically-send-emails.">Head to <a href="http://mandrill.com">Mandrill’s website</a> and create an account; we will be using Mandrill to programmatically send emails.</h3>
+<h3 id="head-to-twitter.com-and-create-yourself-a-twitter-account-if-you-dont-already-have-one-we-will-be-using-twitters-api-to-fetch-data---you-will-need-to-have-an-account-in-order-to-do-that.">Head to <a href="https://twitter.com/">twitter.com</a> and create yourself a <strong>Twitter</strong> account if you don’t already have one; we will be using Twitter’s API to fetch data - you will need to have an account in order to do that.</h3>
+<h2 id="using-external-apis">Using external APIs</h2>
+<h3 id="apis">APIs</h3>
+<p>APIs are of vital importance to developers; they enable you to programmatically access data from various different services such as Twitter, Facebook and Spotify to name a few. APIs enable you to create applications powered by data from any service of your liking.</p>
+<h3 id="mandrill">Mandrill</h3>
+<p>When building a website, for example a landing page for what is to come, one vital thing to do is capture the details of people that might be interested in what you are going to launch.</p>
+<p>Most importantly, you want to capture their email address so you can communicate things to them. In this session, we will learn how to capture a user’s email address and any other details for that matter and programmatically send them an email to confirm that they have signed up to your website’s newsletter.</p>
+<p>This will be an interactive session based on what we did in <strong>Session 6</strong>. If you look at what we did during that session under the <strong>GET &amp; POST</strong> section, you will see that we already learnt how to capture a user’s name and email and print it out on our terminal. Now we are going to use that data to send an email.</p>
+<p>We will be using <a href="http://mandrill.com">Mandrill</a>, an email infrastructure service - or in simpler terms, a service that enables you to programmatically send emails. Madrill has a Python library that makes it easy to send emails, so go ahead and head over to their <a href="https://mandrillapp.com/api/docs/index.python.html">Python documentation</a> and follow the instructions on how to install the Python client and get started.</p>
+<p>Please create an account on Mandrill now. If you get an error message like <code>too many people are trying to create an account from the same location</code>, then wait a little bit.</p>
+<p>This is Mandrill’s way to safeguard against spammers creating accounts programmatically to send spam e-mail.</p>
+<p>You can get the Mandrill Python API Client using below command:</p>
+<pre class="sourceCode python"><code class="sourceCode python">sudo pip install mandrill</code></pre>
+<p>In order to programmatically send emails, we need to get an API key, so go ahead and click on <strong>Get API Keys</strong>. On the next page that you are presented with, click on <strong>+New API Key</strong>.</p>
+<p>On the form that opens up, add a description to make it easier to track your API Keys and leave the rest of boxes unchecked.</p>
+<p>You might wonder, why would you ever want to create multiple API keys. This is especially useful when your website grows and you start sending emails for different functions; registration emails, newsletters etc. In those cases, you would want to use a different API Key for each function to make life easier when managing what each component does.</p>
+<p>After adding a description, hit <strong>Create API Key</strong> - you should now see a key listed. You will notice that there is a little On/ Off toggle button to the right of the key - ensure that is <strong>On</strong>.</p>
+<p>If we now go back to <a href="https://mandrillapp.com/api/docs/index.python.html">Mandrill’s Python Documentation</a>, you can see instructions on how to use the library - to authenticate yourself with Mandrill via Python this is as simple as writing 2 lines of code:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> mandrill
+mandrill_client = mandrill.Mandrill(<span class="st">&#39;Your_API_Key&#39;</span>)</code></pre>
+<p>Next up, we want to actually send an email, so we can look at <a href="https://mandrillapp.com/api/docs/messages.python.html">this</a> part of the documentation which you can access from the left hand side of the Python documentation. The most minimal to send an email would be the following:</p>
+<p><sub>~</sub>{.python} import mandrill mandrill_client = mandrill.Mandrill(‘Your_API_Key’)</p>
+message={ ‘from_email’: ‘sender email address’, ‘from_name’: ‘sender name’ , ‘html’: ’
+<p>
+Thanks for signing up to our awesome newsletter!
+<p>
+<p>‘, ’subject’: ‘Welcome!’, ‘to’: [ { ‘email’: ‘recipient email address’, ‘name’: ‘Recipient name goes here’, ‘type’: ‘to’ } ] }</p>
+<p>mandrill_client.messages.send( message=message, async=False, )</p>
+<p><sub>~</sub>{.python}</p>
+<p>The above example is completely independent from a Flask app, so what you should do now is to figure out how to apply the above code in the context of your Flask app that we created in the last session.</p>
+<p>Ensure that you’re sending an email to a valid email address, set your own email address as the <strong>from_email</strong> and use the email and name submitted via the form that we were previously printing.</p>
+<p>Read through the documentation and figure out what other things you can do with Mandrill - Can you send an email to multiple recipients? Can you add attachments?</p>
+</body>
+</html>

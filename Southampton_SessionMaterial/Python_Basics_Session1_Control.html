@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+</head>
+<body>
+<h2 id="conditionals">Conditionals</h2>
+<p>So what if we want to do something that’s dependent on whether a given condition is true? In this lesson, we’ll learn how to write code that runs only when certain conditions are true.</p>
+<p>We can ask Python to take different actions, depending on a condition, with an if statement:</p>
+<pre class="sourceCode python"><code class="sourceCode python">num = <span class="dv">37</span>
+<span class="kw">if</span> num &gt; <span class="dv">100</span>:
+    <span class="dt">print</span>(<span class="st">&quot;greater&quot;</span>)
+<span class="kw">else</span>:
+    <span class="dt">print</span>(<span class="st">&quot;not greater&quot;</span>)
+<span class="dt">print</span>(<span class="st">&quot;done&quot;</span>)</code></pre>
+<pre class="output"><code>not greater
+done</code></pre>
+<p>The second line of this code uses the keyword <code>if</code> to tell Python that we want to make a choice. If the test that follows it is true, the body of the <code>if</code> (i.e., the lines indented underneath it) are executed. If the test is false, the body of the <code>else</code> is executed instead. Only one or the other is ever executed:</p>
+<div class="figure">
+<img src="../python-flowchart-conditional.svg" alt="Executing a Conditional" /><p class="caption">Executing a Conditional</p>
+</div>
+<p>Conditional statements don’t have to necessarily include an <code>else</code>. If there isn’t one, Python simply does nothing if the test is false:</p>
+<pre class="sourceCode python"><code class="sourceCode python">num = <span class="dv">53</span>
+<span class="dt">print</span>(<span class="st">&quot;before conditional...&quot;</span>)
+<span class="kw">if</span> num &gt; <span class="dv">100</span>:
+    <span class="dt">print</span>(<span class="st">&quot;53 is greater than 100&quot;</span>)
+<span class="dt">print</span>(<span class="st">&quot;...after conditional&quot;</span>)</code></pre>
+<pre class="output"><code>before conditional...
+...after conditional</code></pre>
+<p>We can also chain several tests together using <code>elif</code>, which is short for “else if” as shown in the example code chunk below:</p>
+<pre class="sourceCode python"><code class="sourceCode python">num = -<span class="dv">3</span>
+    <span class="kw">if</span> num &gt; <span class="dv">0</span>:
+        <span class="dt">print</span>(<span class="st">&quot;Sign of a number:&quot;</span>,num,<span class="st">&quot;is:&quot;</span>,<span class="dv">1</span>)
+    <span class="kw">elif</span> num == <span class="dv">0</span>:
+        <span class="dt">print</span>(<span class="st">&quot;Sign of a number&quot;</span>,num,<span class="st">&quot;is:&quot;</span>,<span class="dv">0</span>)
+    <span class="kw">else</span>:
+        <span class="dt">print</span>(<span class="st">&quot;Sign of a number&quot;</span>,num, <span class="st">&quot;is:&quot;</span>,-<span class="dv">1</span>)</code></pre>
+<pre class="output"><code>sign of a number -3 is:  -1</code></pre>
+<p>The keyword <code>elif</code> is short for <code>else if</code>, and is useful to avoid excessive indentation. An <code>if ... elif ... elif ...</code> sequence is a substitute for the <code>switch</code> or <code>case</code> statements found in other languages.</p>
+<p>One important thing to notice in the code above is that we use a double equals sign <code>==</code> to test for equality rather than a single equals sign because the latter is used to mean assignment. This convention was inherited from C, and while many other programming languages work the same way, it does take a bit of getting used to…</p>
+<p>We can also combine tests using <code>and</code> and <code>or</code>. <code>and</code> is only true if both parts are true:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">if</span> (<span class="dv">1</span> &gt; <span class="dv">0</span>) and (-<span class="dv">1</span> &gt; <span class="dv">0</span>):
+    <span class="dt">print</span>(<span class="st">&quot;both parts are true&quot;</span>)
+<span class="kw">else</span>:
+    <span class="dt">print</span>(<span class="st">&quot;one part is not true&quot;</span>)</code></pre>
+<pre class="output"><code>one part is not true</code></pre>
+<p>while <code>or</code> is true if either part is true:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">if</span> (<span class="dv">1</span> &lt; <span class="dv">0</span>) or (<span class="st">&#39;left&#39;</span> &lt; <span class="st">&#39;right&#39;</span>):
+    <span class="dt">print</span>(<span class="st">&quot;at least one test is true&quot;</span>)</code></pre>
+<pre class="output"><code>at least one test is true</code></pre>
+<p>In this case, “either” means “either or both”, not “either one or the other but not both”.</p>
+<h2 id="using-loops-to-repeat-things">Using loops to repeat things</h2>
+<p>Using the tools we’ve covered till now, repeating a simple statement many times is tedious. The only item we can currently repeat easily is printing the exact same message multiple times. For example,</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span>(<span class="st">&quot;I love programming in Python!</span><span class="ch">\n</span><span class="st">&quot;</span>*<span class="dv">10</span>)</code></pre>
+<p>will produce the output:</p>
+<pre class="output"><code>I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!
+I love programming in Python!</code></pre>
+<p>Imagine that we wanted to number this list so that we printed:</p>
+<pre class="output"><code>1. I love programming in Python!
+2. I love programming in Python!
+3. I love programming in Python!
+4. I love programming in Python!
+5. I love programming in Python!
+6. I love programming in Python!
+7. I love programming in Python!
+8. I love programming in Python!
+9. I love programming in Python!
+10. I love programming in Python!</code></pre>
+<p>Now, the times operator <code>*</code> is no longer capable of allowing us to produce this output. Fortunately, Python provides us with multiple general tools for repetition where we’ll simply specify which statements we want to be repeated and a way to determine how many times to repeat those statements.</p>
+<p>To do that, we’ll have to teach the computer how to repeat things.</p>
+<h3 id="shortcomings-of-the-interpreter">Shortcomings of the interpreter</h3>
+<p>Until now, we’ve been writing everything directly in the Python interpreter. It’s good for testing small bits of code, and you can write any Python using the interpreter - but you wouldn’t want to! Generally you want to have the option of easily running your Python code later, and you don’t want to be retyping all the code or copying and pasting it back in to the interpreter. That would be rubbish.</p>
+<p>So, much like what we did with Bash, let’s take a look at writing a Python script that stores Python in a file that we can run at our leisure.</p>
+<h2 id="programs-or-scripts" class="callout">Programs or scripts?</h2>
+<p>The Python Software Foundation refers to Python as a ‘programming language’, But the Python documentation, us, and many others, refer to Python programs as ‘scripts’. So is Python a scripting language or a programming language? The answer is YES.</p>
+<p>Traditionally, languages are either interpreted (like Bash) or compiled (like C). The former type were scripting languages, and the latter were programming languages. But more recently, the lines are beginning to blur.</p>
+<p>Python can be both! You can compile Python, but you don’t need to. In addition, Python can fulfil the role of a scripting language in similar ways to Bash, including that it’s source code can be run on a multitude of supporting platforms without needing to be explicitly compiled. But it can also go much further, and it’s designed so you can pretty much write anything with it.</p>
+<p>For that reason, it’s considered a programming language, but to add to the confusion, we refer to Python programs generally as scripts!</p>
+<h3 id="our-first-python-script">Our first Python script!</h3>
+<p>Suppose we want to print each character in the word “lead” on a line of its own. One way is to use four <code>print</code> statements.</p>
+<p>Let’s write a simple Python program, using our Nano text editor, like we did with Bash. Let’s start Nano (in a separate terminal or shell) and type the following, saving it in a file called <code>word_print.py</code>:</p>
+<pre class="sourceCode python"><code class="sourceCode python">word = <span class="st">&#39;lead&#39;</span>
+<span class="dt">print</span>(word[<span class="dv">0</span>])
+<span class="dt">print</span>(word[<span class="dv">1</span>])
+<span class="dt">print</span>(word[<span class="dv">2</span>])
+<span class="dt">print</span>(word[<span class="dv">3</span>])</code></pre>
+<p>Notice the file has <code>.py</code> at the end - this is a convention that indicates this is a Python script.</p>
+<p>Once you’ve saved it, we can run it from the command line like this (from another terminal or shell, so we can see both the program and how it runs at once):</p>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">python</span> word_print.py</code></pre>
+<p>Here we are asking Python to run our Python script. We should see the following:</p>
+<pre class="output"><code>l
+e
+a
+d</code></pre>
+<p>But looking at our code again, that’s a bad approach for two reasons:</p>
+<ol style="list-style-type: decimal">
+<li><p>It doesn’t scale: if we want to print the characters in a string that’s hundreds of letters long, we’d be better off just typing them in.</p></li>
+<li><p>It’s fragile: if we give it a longer string, it only prints part of the data, and if we give it a shorter one, it produces an error because we’re asking for characters that don’t exist.</p></li>
+</ol>
+<p>We can easily demonstrate the second point by changing our script to the following (just changing the first statement):</p>
+<pre class="sourceCode python"><code class="sourceCode python">word = <span class="st">&#39;tin&#39;</span>
+<span class="dt">print</span>(word[<span class="dv">0</span>])
+<span class="dt">print</span>(word[<span class="dv">1</span>])
+<span class="dt">print</span>(word[<span class="dv">2</span>])
+<span class="dt">print</span>(word[<span class="dv">3</span>])</code></pre>
+<p>Running it again…</p>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">python</span> word_print.py</code></pre>
+<p>…gives us the following:</p>
+<pre class="output"><code>t
+i
+n</code></pre>
+<pre class="error"><code>Traceback (most recent call last):
+  File &quot;loop_test.py&quot;, line 6, in &lt;module&gt;
+    print(word[3])
+IndexError: string index out of range</code></pre>
+<p>Here’s a better approach:</p>
+<pre class="sourceCode python"><code class="sourceCode python">word = <span class="st">&#39;lead&#39;</span>
+<span class="kw">for</span> char in word:
+    <span class="dt">print</span>(char)</code></pre>
+<pre><code>l
+e
+a
+d</code></pre>
+<p>This is shorter—certainly shorter than something that prints every character in a hundred-letter string—and more robust as well:</p>
+<pre class="sourceCode python"><code class="sourceCode python">word = <span class="st">&#39;oxygen&#39;</span>
+<span class="kw">for</span> char in word:
+    <span class="dt">print</span>(char)</code></pre>
+<pre><code>o
+x
+y
+g
+e
+n</code></pre>
+<p>The improved version of code for printing characters uses a <code>for</code> loop to repeat an operation—in this case, printing—once for each thing in a collection. The general form of a loop is:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">for</span> variable in collection:
+    do things <span class="kw">with</span> variable</code></pre>
+<p>We can call the loop variable anything we like, but there must be a colon at the end of the line starting the loop, and we must indent the body of the loop. Unlike many other languages, there is no command to end a loop (e.g. end for); what is indented after the for statement belongs to the loop.</p>
+<p>The great thing about Python is that the simplicity of how it handles loops means we can use the same loop structure for handling other types of data, like lists instead. So with one minor alteration:</p>
+<pre class="sourceCode python"><code class="sourceCode python">word = [<span class="st">&#39;oxygen&#39;</span>, <span class="st">&#39;lead&#39;</span>, <span class="st">&#39;tin&#39;</span>]
+<span class="kw">for</span> char in word:
+    <span class="dt">print</span>(char)</code></pre>
+<pre><code>oxygen
+lead
+tin</code></pre>
+<p>Which is really helpful, and means we don’t need to remember a different way to do something else for a loop. Although, our variable names are now a bit misleading!</p>
+<h3 id="so-whats-happening-in-a-loop">So what’s happening in a loop?</h3>
+<p>Let’s look at a different program called <code>count_vowels.py</code>, with another loop that repeatedly updates a variable:</p>
+<pre class="sourceCode python"><code class="sourceCode python">length = <span class="dv">0</span>
+<span class="kw">for</span> vowel in <span class="st">&#39;aeiou&#39;</span>:
+    length = length + <span class="dv">1</span>
+<span class="dt">print</span>(<span class="st">&#39;There are&#39;</span>, length, <span class="st">&#39;vowels&#39;</span>)</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">python</span> count_vowels.py</code></pre>
+<pre><code>There are 5 vowels</code></pre>
+<p>It’s worth tracing the execution of this little program step by step. Since there are five characters in <code>'aeiou'</code>, the statement on line 3 will be executed five times. The first time around, <code>length</code> is zero (the value assigned to it on line 1) and <code>vowel</code> is <code>'a'</code>. The statement adds 1 to the old value of <code>length</code>, producing 1, and updates <code>length</code> to refer to that new value. The next time around, <code>vowel</code> is <code>'e'</code> and <code>length</code> is 1, so <code>length</code> is updated to be 2. After three more updates, <code>length</code> is 5; since there is nothing left in <code>'aeiou'</code> for Python to process, the loop finishes and the <code>print</code> statement on line 4 tells us our final answer.</p>
+<p>Note that a loop variable is just a variable that’s being used to record progress in a loop. It still exists after the loop is over, and we can re-use variables previously defined as loop variables as well:</p>
+<pre class="sourceCode python"><code class="sourceCode python">length = <span class="dv">0</span>
+<span class="kw">for</span> vowel in <span class="st">&#39;aeiou&#39;</span>:
+    length = length + <span class="dv">1</span>
+<span class="dt">print</span>(<span class="st">&#39;There are&#39;</span>, length, <span class="st">&#39;vowels&#39;</span>)
+<span class="dt">print</span>(<span class="st">&#39;The last vowel counted was&#39;</span>, vowel)</code></pre>
+<pre><code>There are 5 vowels
+The last vowel counted was u</code></pre>
+<p>Note also that finding the length of a string is such a common operation that Python actually has a built-in function to do it called <code>len</code>, which we can add to the end of our program:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span>(<span class="dt">len</span>(<span class="st">&#39;aeiou&#39;</span>))</code></pre>
+<pre><code>5</code></pre>
+<p><code>len</code> is much faster than any function we could write ourselves, and much easier to read than a two-line loop; it will also give us the length of many other things that we haven’t met yet, so we should always use it when we can.</p>
+<h2 id="from-1-to-n" class="challenge">From 1 to N</h2>
+<p>Python has a built-in function called <code>range</code> that creates a list of numbers: <code>range(3)</code> produces <code>[0, 1, 2]</code>, <code>range(2, 5)</code> produces <code>[2, 3, 4]</code>. Using <code>range</code>, write a loop to print the first 3 natural numbers:</p>
+<pre class="sourceCode python"><code class="sourceCode python"> <span class="dv">1</span>
+ <span class="dv">2</span>
+ <span class="dv">3</span></code></pre>
+<h2 id="computing-powers-with-loops" class="challenge">Computing powers with loops</h2>
+<p>Exponentiation is built into Python:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="dt">print</span>(<span class="dv">5</span> ** <span class="dv">3</span>)
+<span class="dv">125</span></code></pre>
+<p>Write a loop that calculates the same result as <code>5 ** 3</code> using multiplication (and without exponentiation).</p>
+<h2 id="reverse-a-string" class="challenge">Reverse a string</h2>
+<p>Write a loop that takes a string, and produces a new string with the characters in reverse order, so <code>Newton</code> becomes <code>notweN</code>.</p>
+</body>
+</html>

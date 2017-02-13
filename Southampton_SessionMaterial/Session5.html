@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+</head>
+<body>
+<h2 id="some-more-of-web-scraping">Some more of Web Scraping</h2>
+<h2 id="scraping-united-states-national-weather-service-website">Scraping United States National Weather Service website</h2>
+<h3 id="submitting-a-form">Submitting a form</h3>
+<p>The site of the United States National Weather Service is present at <a href="http://www.weather.gov/">www.weather.gov</a>. United States Government has long ago decreed that all publications produced by their agencies are public domain. This means that, we can pull all sorts of data from their website.</p>
+<p>When using the <code>urllib</code> module from the Standard Library, we will have to read the web page HTML manually to find the form. We can either use <code>Inspect element</code> or <code>View Source</code> command in our browser, search for the words <code>Local Forecast</code>, and find the following form in the middle of HTML tree:</p>
+<pre class="sourceCode python"><code class="sourceCode python">&lt;form method=<span class="st">&quot;post&quot;</span> action=<span class="st">&quot;http://forecast.weather.gov/zipcity.php&quot;</span> ...&gt;
+  ...
+  &lt;<span class="dt">input</span> <span class="dt">type</span>=<span class="st">&quot;text&quot;</span> <span class="dt">id</span>=<span class="st">&quot;zipcity&quot;</span> name=<span class="st">&quot;inputstring&quot;</span> size=<span class="st">&quot;9&quot;</span>
+    value=<span class="st">&quot;City, St&quot;</span> onfocus=<span class="st">&quot;this.value=&#39;&#39;;&quot;</span> /&gt;
+  &lt;<span class="dt">input</span> <span class="dt">type</span>=<span class="st">&quot;submit&quot;</span> name=<span class="st">&quot;Go2&quot;</span> value=<span class="st">&quot;Go&quot;</span> /&gt;
+&lt;/form&gt;</code></pre>
+<p>The only important elements here are <code>form</code> and <code>input</code> fields inside. This form does a <code>POST</code> to a particular URL with, it appears, just one parameter: an <code>inputstring</code> giving the city name and state.</p>
+<h3 id="challenge-1-write-a-python-script-that-uses-python-standard-urllib-library-to-perform-above-interaction-and-save-the-result-to-placename.html.">Challenge 1: Write a python script that uses Python Standard <code>urllib</code> library to perform above interaction and save the result to <code>&lt;placename&gt;.html</code>.</h3>
+<p><strong>NOTE: </strong> Python 3 libraries require bytes instead of good old strings.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co">#!/usr/bin/env python</span>
+<span class="co"># Submitting a form and retrieving a page with urllib</span>
+
+<span class="ch">import</span> urllib
+<span class="ch">import</span> urllib.request
+<span class="ch">import</span> urllib.parse
+data = urllib.urlencode({<span class="st">&#39;inputstring&#39;</span>: <span class="st">&#39;Austin, TX&#39;</span>})
+data = data.encode(<span class="st">&#39;utf-8&#39;</span>) 
+info = urllib.request.urlopen(<span class="st">&#39;http://forecast.weather.gov/zipcity.php&#39;</span>, data)
+content = info.read()
+<span class="dt">open</span>(<span class="st">&#39;austin.html&#39;</span>, <span class="st">&#39;w&#39;</span>).write(content)</code></pre>
+<p>As you can see above, <code>urllib</code> library makes this interaction very convenient, we are able to download a forecast page using only a few lines of code. But, we had to read and understand the form ourselves instead of relying on an actual HTML parser to read it.</p>
+<h3 id="scraping-with-robobrowser">Scraping with <code>RoboBrowser</code></h3>
+<p>The approach encouraged by <code>mechanize</code> is quite different: We only need the web page address of the opening page to get started, and the library itself will take the responsibility for exploring the HTML and letting us know what forms are present. It itself finds the forms on a particular web page. However, this library doesn’t work on Python 3.</p>
+<p>In order to help us avoid reading any HTML at all, Python 3 versions &gt;= 3.3 and Python 2 versions &gt;= 2.6 has a library called <code>RoboBrowser</code>, a simple pythonic library for browsing web without standalone web browser. It can fetch a page, click on links and buttons, fill and submit forms. RoboBrowser can be used or of help if we need to interact with web services that don’t have APIs.</p>
+<p>It combines the best of 2 excellent Python libraries: Requests and BeautifulSoup. It’s like <code>Mechanize</code> in Python 3.</p>
+<p>You can install RoboBrowser with command as below:</p>
+<pre class="sourceCode python"><code class="sourceCode python">easy_install robobrowser</code></pre>
+<p>OR</p>
+<p>if you have virtualenvwrapper installed:</p>
+<pre class="sourceCode python"><code class="sourceCode python">mkvirtualenv robobrowser
+pip install robobrowser</code></pre>
+<p>It’s a Robotic web browser. Represents HTTP requests and responses using the <code>requests</code> library and parsed HTML using <code>BeautifulSoup</code>.</p>
+<p>Let’s try working on <strong>Challenge 1</strong> above using <strong>RoboBrowser</strong>.</p>
+<h3 id="challenge-2-submitting-a-form-with-robobrowser-pythonic-library">Challenge 2: Submitting a form with <code>RoboBrowser</code> Pythonic library</h3>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> robobrowser <span class="ch">import</span> RoboBrowser
+
+<span class="co">#Browse to USA National Weather site</span>
+browser=RoboBrowser(history=<span class="ot">True</span>)
+browser.<span class="dt">open</span>(<span class="st">&#39;http://www.weather.gov/&#39;</span>)
+
+<span class="co">#Search for getForecast id</span>
+form = browser.get_form(<span class="dt">id</span>=<span class="st">&#39;getForecast&#39;</span>)
+form 
+form.parsed
+
+<span class="co">#Set the value to input string for the place&#39;s data you want to search</span>
+form[<span class="st">&#39;inputstring&#39;</span>].value=<span class="st">&#39;Austin, TX&#39;</span>
+<span class="dt">dir</span>(form)                                       <span class="co">#Listing the methods and attributes that can be used with form</span>
+browser.submit_form(form)
+browser
+<span class="dt">dir</span>(browser)                <span class="co">#Listing the methods and attributes that can be used with browser</span>
+
+<span class="co">#Checking the URL for the input string data</span>
+browser.url
+<span class="dt">type</span>(browser.url)</code></pre>
+<p>We will now be opening the URL for the data based on the City, State entered in <code>Search</code> section of the website and store the data in an HTML file like before.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> urllib
+<span class="ch">import</span> urllib.request
+
+info=urllib.request.urlopen(browser.url)
+content=info.read()
+
+<span class="co">#Type below command. It will throw error based on the content&#39;s data type. But need to show error for explanation and flow of the program.</span>
+ <span class="dt">open</span>(<span class="st">&#39;austin2.html&#39;</span>, <span class="st">&#39;w&#39;</span>).write(content)
+ 
+ <span class="co">#Based on the error, content needs to be converted to String as below. </span>
+ content
+ <span class="dt">type</span>(content)
+ 
+ <span class="dt">open</span>(<span class="st">&#39;austin2.html&#39;</span>, <span class="st">&#39;w&#39;</span>).write(<span class="dt">str</span>(content))
+ 
+ <span class="co">#Check the file and the format and then run below commands.</span>
+ content=content.decode()
+ 
+ <span class="dt">open</span>(<span class="st">&#39;austin2.html&#39;</span>, <span class="st">&#39;w&#39;</span>).write(content)</code></pre>
+<h3 id="challenge-3-write-a-python-script-to-find-the-total-number-of-clinical-trials-as-recorded-by-the-national-institutes-of-health.">Challenge 3: Write a python script to find the total number of clinical trials as recorded by the <a href="https://clinicaltrials.gov/">National Institutes of Health</a>.</h3>
+<p><strong>Solution: </strong></p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> requests
+<span class="ch">from</span> lxml <span class="ch">import</span> html
+url = <span class="st">&#39;https://clinicaltrials.gov/&#39;</span>
+document = html.fromstring(requests.get(url).text)
+element = document.cssselect(<span class="st">&#39;#trial-count &gt; p &gt; .highlight&#39;</span>)[<span class="dv">0</span>]
+<span class="dt">print</span>(element.text_content())</code></pre>
+<h3 id="challenge-4-write-a-python-script-to-find-the-total-number-of-visitors-to-the-white-house-in-2015.">Challenge 4: Write a python script to find the <a href="https://www.whitehouse.gov/briefing-room/disclosures/visitor-records">total number of visitors to the White House</a> in 2015.</h3>
+</body>
+</html>
